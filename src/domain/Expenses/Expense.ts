@@ -63,6 +63,33 @@ export class Expense implements Entity{
         return Result.success(newExpense);
     }
 
+    /** Reconstitutes an Expense from a data row.
+     * @param id The ID of the expense.
+     * @param description The description of the expense.
+     * @param amount The amount of the expense.
+     * @param category The category of the expense.
+     * @param date The date of the expense.
+     * @param createdAt The creation date of the expense.
+     * @returns An instance of Expense.
+     */
+    public static reconstitute(
+        id: string,
+        description: string,
+        amount: number,
+        category: ExpenseCategory,
+        date: Date,
+        createdAt: Date
+    ): Expense {
+        return new Expense(
+            id,
+            description,
+            amount,
+            category,
+            date,
+            createdAt
+        );
+    }
+
     //#region Getters
 
     public get description(): string {

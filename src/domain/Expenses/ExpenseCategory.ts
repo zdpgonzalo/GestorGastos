@@ -6,5 +6,6 @@ export enum ExpenseCategory{
     Healthcare,
     Education,
     PersonalCare,
-    Miscellaneous
+    Miscellaneous,
+    Other
 }

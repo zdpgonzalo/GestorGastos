@@ -35,6 +35,24 @@ export class Person implements Entity {
         return Result.success(newPerson);
     }
 
+    /** Reconstitutes a Person instance from the provided data.
+     * @param id The ID of the person.
+     * @param name The name of the person.
+     * @param createdAt The date the person was created.
+     * @returns A new Person instance.
+     */
+    public static reconstitute(
+        id: string,
+        name: string,
+        createdAt: Date
+    ): Person{
+        return new Person(
+            id,
+            name,
+            createdAt
+        );
+    }
+
     //#region Getters
 
     public get name(): string {

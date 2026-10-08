@@ -2,6 +2,7 @@ import { Result } from "@/shared/common/Result";
 import { Entity } from "@/shared/domain/Entity";
 import { ExpenseCategory } from "./ExpenseCategory";
 
+/** Represents an expense in the shared expenses system. */
 export class Expense implements Entity{
     private _description: string;
     private _amount: number;
@@ -95,11 +96,10 @@ export class Expense implements Entity{
     public updateDescription(newDescription: string): Result<string> {
         const descriptionResult = Expense.validateDescription(newDescription);
 
-        if(!descriptionResult.isSuccess){
-            return descriptionResult;
+        if(descriptionResult.isSuccess){
+            this._description = descriptionResult.value;
         }
         
-        this._description = descriptionResult.value;
         return descriptionResult;
     }
 
@@ -110,11 +110,10 @@ export class Expense implements Entity{
     public updateAmount(newAmount: number): Result<number>{
         const amountResult = Expense.validateAmount(newAmount);
 
-        if(!amountResult.isSuccess){
-            return amountResult;
+        if(amountResult.isSuccess){
+            this._amount = amountResult.value;
         }
 
-        this._amount = newAmount;
         return amountResult;
     }
 

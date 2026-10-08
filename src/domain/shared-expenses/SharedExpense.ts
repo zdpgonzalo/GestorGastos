@@ -13,7 +13,6 @@ export class SharedExpense implements Entity{
 
     private constructor(
         public readonly id: string,
-        public readonly groupId: string,
         public readonly paidByPersonId: string,
         participantPersonIds: string[],
         description: string,
@@ -31,7 +30,6 @@ export class SharedExpense implements Entity{
     }
 
     /** Creates a new shared expense.
-     * @param groupId The ID of the group to which the expense belongs.
      * @param paidByPersonId The ID of the person who paid for the expense.
      * @param participantPersonIds An array of IDs of the persons who participated in the expense.
      * @param description The description of the expense.
@@ -41,7 +39,6 @@ export class SharedExpense implements Entity{
      * @returns A Result object containing the new shared expense or an error message if the creation fails.
      */
     static create(
-        groupId: string,
         paidByPersonId: string,
         participantPersonIds: string[],
         description: string,
@@ -59,11 +56,20 @@ export class SharedExpense implements Entity{
             return validatedAmount;
         }
 
+        const normalizedParticipantIdsResult = this.validateParticipantPersonIds(participantPersonIds);
+        if (!normalizedParticipantIdsResult.isSuccess) {
+            return normalizedParticipantIdsResult;
+        }
+
+        const payerValidationResult = this.validatePayerPersonId(paidByPersonId, normalizedParticipantIdsResult.value);
+        if (!payerValidationResult.isSuccess) {
+            return payerValidationResult;
+        }
+
         return Result.success(new SharedExpense(
             crypto.randomUUID(),
-            groupId,
-            paidByPersonId,
-            participantPersonIds,
+            payerValidationResult.value,
+            normalizedParticipantIdsResult.value,
             validatedDescription.value,
             validatedAmount.value,
             date,
@@ -158,6 +164,90 @@ export class SharedExpense implements Entity{
         }
 
         return Result.success(amount);
+    }
+
+    /** Checks if the payer person ID is valid.
+     * @param payerPersonId The ID of the person who paid for the expense.
+     * @param participantPersonIds An array of IDs of the persons who participated in the expense.
+     * @returns Result<string> containing the validated ID or an error message if the ID is invalid.
+     */
+    private static validatePayerPersonId(payerPersonId: string, participantPersonIds: string[]): Result<string>{
+        const normalizedPayerId = payerPersonId.trim();
+        if(normalizedPayerId.length === 0){
+            return Result.failure("Payer ID cannot be empty.");
+        }
+
+        if(!participantPersonIds.includes(normalizedPayerId)){
+            return Result.failure("Payer must be one of the participants.");
+        }
+
+        return Result.success(normalizedPayerId);
+    }
+
+    /** Validates the participant person IDs.
+     * @param participantPersonIds An array of IDs of the persons who participated in the expense.
+     * @returns A Result object containing the validated IDs or an error message if any ID is invalid.
+     */
+    private static validateParticipantPersonIds(participantPersonIds: string[]): Result<string[]>{
+        if(participantPersonIds.length === 0){
+            return Result.failure("There must be at least one participant.");
+        }
+
+        const normalizedIds = participantPersonIds.map(id => id.trim());
+
+        if (normalizedIds.some(id => id.length === 0)) {
+            return Result.failure("All participant IDs must be valid.");
+        }
+
+        if(new Set(normalizedIds).size !== normalizedIds.length){
+            return Result.failure("Participant person IDs cannot contain duplicates.");
+        }
+
+        return Result.success(normalizedIds);
+    }
+
+
+    //#endregion
+
+    //#region Participant Management
+
+    /** Adds a participant to the shared expense.
+     * @param personId ID of the person to be added as a participant.
+     * @returns A Result object indicating success or failure of the addition operation.
+     */
+    public addParticipant(personId: string): Result<void>{
+        const normalizedId = personId.trim();
+
+        if(normalizedId.length === 0){
+            return Result.failure("Participant ID cannot be empty.");
+        }
+
+        if(this._participantPersonIds.includes(normalizedId)){
+            return Result.failure("Participant is already added.");
+        }
+
+        this._participantPersonIds.push(normalizedId);
+        return Result.success(undefined);
+    }
+
+    /** Removes a participant from the shared expense.
+     * @param personId ID of the person to be removed as a participant.
+     * @returns A Result object indicating success or failure of the removal operation.
+     */
+    public removeParticipant(personId: string): Result<void>{
+        const normalizedId = personId.trim();
+
+        if(normalizedId.length === 0){
+            return Result.failure("Participant ID cannot be empty.");
+        }
+
+        const index = this.participantPersonIds.indexOf(normalizedId);
+        if(index === -1){
+            return Result.failure("Participant not found.");
+        }
+
+        this._participantPersonIds.splice(index, 1);
+        return Result.success(undefined);
     }
 
     //#endregion

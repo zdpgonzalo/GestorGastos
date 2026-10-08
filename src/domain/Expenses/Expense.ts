@@ -16,7 +16,7 @@ export class Expense implements Entity{
         amount: number,
         category: ExpenseCategory,
         date: Date,
-        createdAt: Date
+        createdAt: Date = new Date()
     ){
         this._description = description;
         this._amount = amount;

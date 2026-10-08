@@ -1,46 +1,86 @@
 import { Result } from "@/shared/common/Result";
 import { Entity } from "@/shared/domain/Entity";
 
-/**
- * Represents a person who participates in the shared expenses.
- */
+/** Represents a person who participates in the shared expenses. */
 export class Person implements Entity {
+    private _name: string;
     private readonly _createdAt: Date;
 
     private constructor(
         public readonly id: string,
-        public readonly name: string,
+        name: string,
         createdAt: Date,
     ){
+        this._name = name;
         this._createdAt = new Date(createdAt.getTime());
     }
 
-    /**
-     * Creates a new instance of Person with the provided name.
+    /** Creates a new instance of Person with the provided name.
      * @param name The name of the person to be created. 
      * @returns Result<Person> containing the newly created Person instance or an error message if the name is invalid.
      */
     static create(name: string): Result<Person>{
-        const normalizedName = name.trim();
+        const nameResult = this.validateName(name);
 
-        if(normalizedName.length === 0){
-            return Result.failure("Name cannot be empty.");
+        if(!nameResult.isSuccess){
+            return nameResult;
         }
 
         const newPerson = new Person(
             crypto.randomUUID(),
-            normalizedName,
+            nameResult.value,
             new Date()
         );
 
         return Result.success(newPerson);
     }
 
-    /**
-     * Gets the date when the person was created.
-     * @returns The creation date.
-     */
+    //#region Getters
+
+    public get name(): string {
+        return this._name;
+    }
+
     public get createdAt(): Date {
         return new Date(this._createdAt.getTime());
     }
+
+    //#endregion
+
+    //#region Setters
+
+    /** Updates the name of the person.
+     * @param newName New name to be set for the person.
+     * @returns A Result object indicating success or failure.
+     */
+    public updateName(newName: string) : Result<string> {
+        const nameResult = Person.validateName(newName);
+
+        if(!nameResult.isSuccess){
+            return nameResult;
+        }
+
+        this._name = nameResult.value;
+        return nameResult;
+    }
+
+    //#endregion
+
+    //#region Validation
+
+    /** Checks if the provided name is valid (non-empty).
+     * @param name Name to be validated.
+     * @returns A Result object indicating success with the normalized name or failure with an error message.
+     */
+    private static validateName(name: string): Result<string>{
+        const normalizedName = name.trim();
+
+        if(normalizedName.length === 0){
+            return Result.failure("Name cannot be empty.");
+        }
+
+        return Result.success(normalizedName);
+    }
+
+    //#endregion
 }

@@ -1,6 +1,6 @@
 import { Expense } from "@/domain/expenses/Expense";
 import { IExpenseRepository } from "@/domain/expenses/IExpenseRepository";
-import { ExpenseMapper, ExpenseRow } from "@/infraestructure/database/mappers/ExpenseMapper";
+import { ExpenseMapper, ExpenseRow } from "@/infrastructure/database/mappers/ExpenseMapper";
 import { SQLiteDatabase } from "expo-sqlite";
 
 export class SQLiteExpenseRepository implements IExpenseRepository{
@@ -14,8 +14,7 @@ export class SQLiteExpenseRepository implements IExpenseRepository{
      */
     public async getById(id: string): Promise<Expense | null> {
         const row = await this.db.getFirstAsync<ExpenseRow>(
-            `SELECT
-            id, description, amount, category, date, created_at
+            `SELECT id, description, amount, category, date, created_at
             FROM expenses
             WHERE id = ?`,
             id

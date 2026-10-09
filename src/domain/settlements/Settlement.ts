@@ -76,6 +76,36 @@ export class Settlement implements Entity{
         return Result.success(newSettlement);
     }
 
+    /** Reconstitutes a Settlement from its constituent parts.
+     * @param id The ID of the settlement.
+     * @param fromPersonId The 'from' field of the settlement.
+     * @param toPersonId The 'to' field of the settlement.
+     * @param amount The 'amount' field of the settlement.
+     * @param date The 'date' field of the settlement.
+     * @param method The 'method' field of the settlement.
+     * @param createdAt The 'created_at' field of the settlement.
+     * @returns A new Settlement instance.
+     */
+    public static reconstitute(
+        id: string,
+        fromPersonId: string,
+        toPersonId: string,
+        amount: number,
+        date: Date,
+        method: SettlementMethod | null,
+        createdAt: Date
+    ): Settlement{
+        return new Settlement(
+            id,
+            fromPersonId,
+            toPersonId,
+            amount,
+            date,
+            method,
+            createdAt
+        );
+    }
+
     //#region Getters
 
     public get fromPersonId(): string{

@@ -17,8 +17,8 @@ export class SharedExpense implements Entity{
         participantPersonIds: string[],
         description: string,
         amount: number,
-        category: ExpenseCategory,
         date: Date,
+        category: ExpenseCategory,
         createdAt: Date = new Date()
     ) {
         this._description = description;
@@ -43,8 +43,8 @@ export class SharedExpense implements Entity{
         participantPersonIds: string[],
         description: string,
         amount: number,
-        category: ExpenseCategory,
-        date: Date
+        date: Date,
+        category: ExpenseCategory
     ): Result<SharedExpense> {
         const validatedDescription = this.validateDescription(description);
         if (!validatedDescription.isSuccess) {
@@ -72,42 +72,9 @@ export class SharedExpense implements Entity{
             normalizedParticipantIdsResult.value,
             validatedDescription.value,
             validatedAmount.value,
-            category,
-            date
-        ));
-    }
-
-    /** Reconstitutes a SharedExpense from its constituent parts.
-     * @param id The ID of the shared expense.
-     * @param paidByPersonId The ID of the person who paid for the expense.
-     * @param participantPersonIds An array of IDs of the persons who participated in the expense.
-     * @param description The description of the expense.
-     * @param amount The amount of the expense.
-     * @param date The date of the expense.
-     * @param category The category of the expense.
-     * @param createdAt The date and time when the expense was created.
-     * @returns A new SharedExpense instance.
-     */
-    public static reconstitute(
-        id: string,
-        paidByPersonId: string,
-        participantPersonIds: string[],
-        description: string,
-        amount: number,
-        category: ExpenseCategory,
-        date: Date,
-        createdAt: Date,
-    ): SharedExpense {
-        return new SharedExpense(
-            id,
-            paidByPersonId,
-            participantPersonIds,
-            description,
-            amount,
-            category,
             date,
-            createdAt
-        );
+            category
+        ));
     }
 
     //#region Getters
@@ -274,7 +241,7 @@ export class SharedExpense implements Entity{
             return Result.failure("Participant ID cannot be empty.");
         }
 
-        const index = this._participantPersonIds.indexOf(normalizedId);
+        const index = this.participantPersonIds.indexOf(normalizedId);
         if(index === -1){
             return Result.failure("Participant not found.");
         }

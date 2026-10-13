@@ -4,7 +4,7 @@ import { ExpenseCategory } from "@/domain/expenses/ExpenseCategory";
 export type ExpenseRow = {
     id : string,
     description : string,
-    amount : number,
+    amount_minor_units : number,
     category : number,
     date : string,
     created_at : string
@@ -20,7 +20,7 @@ export class ExpenseMapper{
         return Expense.reconstitute(
             row.id,
             row.description,
-            row.amount,
+            row.amount_minor_units / 100, // Convert from minor units to major units
             row.category as ExpenseCategory,
             new Date(row.date),
             new Date(row.created_at)
@@ -35,7 +35,7 @@ export class ExpenseMapper{
         return{
             id: expense.id,
             description: expense.description,
-            amount: expense.amount,
+            amount_minor_units: Math.round(expense.amount * 100), // Convert from major units to minor units    
             category: expense.category,
             date: expense.date.toISOString(),
             created_at: expense.createdAt.toISOString()

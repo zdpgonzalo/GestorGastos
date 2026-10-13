@@ -5,7 +5,7 @@ export type SharedExpenseRow = {
     id: string;
     paid_by_person_id: string;
     description: string;
-    amount: number;
+    amount_minor_units: number;
     date: string;
     category: number;
     created_at: string
@@ -26,9 +26,9 @@ export class SharedExpenseMapper{
             row.paid_by_person_id,
             participantPersonIds,
             row.description,
-            row.amount,
-            row.category as ExpenseCategory,
+            row.amount_minor_units / 100, // Convert from minor units to major units
             new Date(row.date),
+            row.category as ExpenseCategory,
             new Date(row.created_at)
         );
     }
@@ -42,7 +42,7 @@ export class SharedExpenseMapper{
             id: sharedExpense.id,
             paid_by_person_id: sharedExpense.paidByPersonId,
             description: sharedExpense.description,
-            amount: sharedExpense.amount,
+            amount_minor_units: Math.round(sharedExpense.amount * 100), // Convert from major units to minor units
             date: sharedExpense.date.toISOString(),
             category: sharedExpense.category as number,
             created_at: sharedExpense.createdAt.toISOString()

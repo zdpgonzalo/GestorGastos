@@ -5,7 +5,7 @@ export type SettlementRow = {
     id: string;
     fromPersonId: string;
     toPersonId: string;
-    amount: number;
+    amount_minor_units: number;
     date: string;
     method: number | null;
     created_at: string
@@ -22,7 +22,7 @@ export class SettlementMapper{
             row.id,
             row.fromPersonId,
             row.toPersonId,
-            row.amount,
+            row.amount_minor_units / 100, // Convert from minor units to major units
             new Date(row.date),
             row.method as SettlementMethod | null,
             new Date(row.created_at)
@@ -38,7 +38,7 @@ export class SettlementMapper{
             id: settlement.id,
             fromPersonId: settlement.fromPersonId,
             toPersonId: settlement.toPersonId,
-            amount: settlement.amount,
+            amount_minor_units: Math.round(settlement.amount * 100), // Convert from major units to minor units
             date: settlement.date.toISOString(),
             method: settlement.method as number | null,
             created_at: settlement.createdAt.toISOString()

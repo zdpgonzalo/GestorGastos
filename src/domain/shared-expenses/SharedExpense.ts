@@ -77,6 +77,39 @@ export class SharedExpense implements Entity{
         ));
     }
 
+    /** Reconstitutes a SharedExpense from its persisted data.
+     * @param id The ID of the shared expense.
+     * @param paidByPersonId The ID of the person who paid for the expense.
+     * @param participantPersonIds The IDs of the participating persons.
+     * @param description The description of the expense.
+     * @param amount The amount of the expense.
+     * @param date The date of the expense.
+     * @param category The category of the expense.
+     * @param createdAt The date when the expense was created.
+     * @returns A reconstituted SharedExpense instance.
+     */
+    public static reconstitute(
+        id: string,
+        paidByPersonId: string,
+        participantPersonIds: string[],
+        description: string,
+        amount: number,
+        date: Date,
+        category: ExpenseCategory,
+        createdAt: Date
+    ): SharedExpense {
+        return new SharedExpense(
+            id,
+            paidByPersonId,
+            participantPersonIds,
+            description,
+            amount,
+            date,
+            category,
+            createdAt
+        );
+    }
+
     //#region Getters
 
     public get description(): string{

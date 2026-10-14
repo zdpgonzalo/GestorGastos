@@ -22,7 +22,5 @@ export default function TabLayout() {
         <AppTabs />
       </ThemeProvider>
     </SQLiteProvider>
-
-    
   );
 }

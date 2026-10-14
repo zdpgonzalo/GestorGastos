@@ -9,8 +9,8 @@ export async function createSettlementsTable(
     await db.execAsync(`
         CREATE TABLE IF NOT EXISTS settlements(
             id TEXT PRIMARY KEY NOT NULL,
-            fromPersonId TEXT NOT NULL,
-            toPersonId TEXT NOT NULL,
+            from_person_id TEXT NOT NULL,
+            to_person_id TEXT NOT NULL,
             amount_minor_units INTEGER NOT NULL
                 CHECK (amount_minor_units >= 0),
             date TEXT NOT NULL,

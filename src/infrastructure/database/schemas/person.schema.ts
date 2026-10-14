@@ -11,7 +11,7 @@ export async function createPersonsTable(
             id TEXT PRIMARY KEY NOT NULL,
             name TEXT NOT NULL
                 CHECK (length(trim(name)) > 0),
-            createdAt TEXT NOT NULL
+            created_at TEXT NOT NULL
         );
     `);
 }

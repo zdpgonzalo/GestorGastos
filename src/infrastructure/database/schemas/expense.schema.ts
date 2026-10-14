@@ -15,7 +15,7 @@ export async function createExpensesTable(
                 CHECK (amount_minor_units >= 0),
             category INTEGER NOT NULL,
             date TEXT NOT NULL,
-            createdAt TEXT NOT NULL
+            created_at TEXT NOT NULL
         );
     `);
 }

@@ -12,7 +12,7 @@ export async function createSharedExpensesTable(
                 CHECK (amount_minor_units >= 0),
             category INTEGER NOT NULL,
             date TEXT NOT NULL,
-            createdAt TEXT NOT NULL,
+            created_at TEXT NOT NULL,
 
             FOREIGN KEY (paid_by_person_id)
                 REFERENCES persons(id)

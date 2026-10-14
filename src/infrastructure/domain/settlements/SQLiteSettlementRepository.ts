@@ -15,7 +15,7 @@ export class SQLiteSettlementRepository implements ISettlementRepository{
     public async getById(id: string): Promise<Settlement | null> {
         const row = await this.db.getFirstAsync<SettlementRow>(
             `SELECT
-            id, fromPersonId, toPersonId, amount, date, method, created_at
+            id, from_person_id, to_person_id, amount, date, method, created_at
             FROM settlements
             WHERE id = ?`,
             id
@@ -35,7 +35,7 @@ export class SQLiteSettlementRepository implements ISettlementRepository{
         const row = SettlementMapper.toPersistence(settlement);
 
         await this.db.runAsync(
-            `INSERT INTO settlements(id, fromPersonId, toPersonId, amount, date, method, created_at)
+            `INSERT INTO settlements(id, from_person_id, to_person_id, amount, date, method, created_at)
             VALUES (?, ?, ?, ?, ?, ?, ?)`,
             row.id,
             row.fromPersonId,

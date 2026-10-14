@@ -6,6 +6,7 @@ export async function createSharedExpensesTable(
     await db.execAsync(`
         CREATE TABLE IF NOT EXISTS shared_expenses(
             id TEXT PRIMARY KEY NOT NULL,
+            paid_by_person_id TEXT NOT NULL,
             description TEXT NOT NULL
                 CHECK (length(trim(description)) > 0),
             amount_minor_units INTEGER NOT NULL

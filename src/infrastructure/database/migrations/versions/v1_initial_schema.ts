@@ -10,8 +10,14 @@ import { createSharedExpensesTable } from "../../schemas/shared-expense.schema";
 export async function applyInitialSchema(
     db: SQLiteDatabase
 ): Promise<void>{
-    await createPersonsTable(db);
-    await createExpensesTable(db);
-    await createSettlementsTable(db);
-    await createSharedExpensesTable(db);
+    try{
+        await createPersonsTable(db);
+        await createExpensesTable(db);
+        await createSettlementsTable(db);
+        await createSharedExpensesTable(db);
+    }
+    catch(error){
+        console.error("[DB] Error during initialization:", error);
+        throw error;
+    }
 }

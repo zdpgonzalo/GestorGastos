@@ -7,7 +7,7 @@ import { AnimatedSplashOverlay } from '@/components/animated-icon';
 import AppTabs from '@/components/app-tabs';
 import { initializeDatabase } from '@/infrastructure/database/migrations/initializeDatabase';
 
-SplashScreen.preventAutoHideAsync();
+void SplashScreen.preventAutoHideAsync();
 
 export default function TabLayout() {
   const colorScheme = useColorScheme();
@@ -17,7 +17,9 @@ export default function TabLayout() {
       databaseName="gestor_gastos.db"
       onInit={initializeDatabase}
     >
-      <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
+      <ThemeProvider
+        value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}
+      >
         <AnimatedSplashOverlay />
         <AppTabs />
       </ThemeProvider>

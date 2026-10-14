@@ -32,16 +32,18 @@ export class SQLiteSettlementRepository implements ISettlementRepository{
      * @inheritdoc
      */
     public async add(settlement: Settlement): Promise<void> {
+        const row = SettlementMapper.toPersistence(settlement);
+
         await this.db.runAsync(
             `INSERT INTO settlements(id, fromPersonId, toPersonId, amount, date, method, created_at)
             VALUES (?, ?, ?, ?, ?, ?, ?)`,
-            settlement.id,
-            settlement.fromPersonId,
-            settlement.toPersonId,
-            settlement.amount,
-            settlement.date.toISOString(),
-            settlement.method as number | null,
-            settlement.createdAt.toISOString()
+            row.id,
+            row.fromPersonId,
+            row.toPersonId,
+            row.amount_minor_units,
+            row.date,
+            row.method as number | null,
+            row.created_at
         )
     }
 

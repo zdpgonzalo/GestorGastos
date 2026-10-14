@@ -55,7 +55,7 @@ export class SQLiteSharedExpenseRepository implements ISharedExpenseRepository {
                 row.id,
                 row.paid_by_person_id,
                 row.description,
-                row.amount,
+                row.amount_minor_units,
                 row.category,
                 row.date,
                 row.created_at

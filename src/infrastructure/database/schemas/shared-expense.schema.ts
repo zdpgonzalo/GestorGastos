@@ -1,10 +1,10 @@
 import { SQLiteDatabase } from "expo-sqlite";
 
-export async function createExpensesTable(
+export async function createSharedExpensesTable(
     db: SQLiteDatabase
 ): Promise<void>{
     await db.execAsync(`
-        CREATE TABLE IF NOT EXISTS expenses(
+        CREATE TABLE IF NOT EXISTS shared_expenses(
             id TEXT PRIMARY KEY NOT NULL,
             description TEXT NOT NULL
                 CHECK (length(trim(description)) > 0),

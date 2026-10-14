@@ -3,7 +3,7 @@ import { SQLiteDatabase } from "expo-sqlite";
 /** Creates the settlements table in the database if it does not already exist.
  * @param db Connection to the SQLite database.
  */
-export async function createExpensesTable(
+export async function createSettlementsTable(
     db: SQLiteDatabase
 ): Promise<void>{
     await db.execAsync(`

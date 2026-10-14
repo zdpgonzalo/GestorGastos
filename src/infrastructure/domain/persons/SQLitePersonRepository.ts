@@ -31,12 +31,14 @@ export class SQLitePersonRepository implements IPersonRepository {
      * @inheritdoc
      */
     public async add(person: Person): Promise<void> {
+        const row = PersonMapper.toPersistence(person);
+
         await this.db.runAsync(
             `INSERT INTO persons (id, name, created_at) 
             VALUES (?, ?, ?)`,
-            person.id,
-            person.name,
-            person.createdAt.toISOString()
+            row.id,
+            row.name,
+            row.created_at
         );
     }
 

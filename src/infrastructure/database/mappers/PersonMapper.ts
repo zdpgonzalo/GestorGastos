@@ -3,7 +3,7 @@ import { Person } from "@/domain/persons/Person";
 export type PersonRow = {
     id: string;
     name: string;
-    createdAt: string;
+    created_at: string;
 }
 
 export class PersonMapper{
@@ -16,7 +16,7 @@ export class PersonMapper{
         return Person.reconstitute(
             row.id, 
             row.name, 
-            new Date(row.createdAt));
+            new Date(row.created_at));
     }
 
     /** Converts a Person instance to its persistence representation.
@@ -27,7 +27,7 @@ export class PersonMapper{
         return {
             id: person.id,
             name: person.name,
-            createdAt: person.createdAt.toISOString()
+            created_at: person.createdAt.toISOString()
         };
     }
 }

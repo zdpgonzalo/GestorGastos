@@ -31,16 +31,18 @@ export class SQLiteExpenseRepository implements IExpenseRepository{
      * @inheritdoc
      */
     public async add(expense: Expense): Promise<void> {
+        const row = ExpenseMapper.toPersistence(expense);
+
         await this.db.runAsync(
             `INSERT INTO 
             expense(id, description, amount, category, date, created_at) 
             VALUES (?, ?, ?, ?, ?, ?)`,
-            expense.id,
-            expense.description,
-            expense.amount,
-            expense.category,
-            expense.date.toISOString(),
-            expense.createdAt.toISOString()
+            row.id,
+            row.description,
+            row.amount_minor_units,
+            row.category,
+            row.date,
+            row.created_at
         )
     }
 

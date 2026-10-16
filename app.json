@@ -33,6 +33,13 @@
           "imageWidth": 76
         }
       ],
+      [
+        "expo-navigation-bar",
+        {
+          "enforceContrast": false,
+          "hidden": false
+        }
+      ],
       "expo-sqlite"
     ],
     "experiments": {

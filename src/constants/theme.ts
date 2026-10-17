@@ -7,22 +7,49 @@ import '@/global.css';
 
 import { Platform } from 'react-native';
 
+
 export const Colors = {
   light: {
-    text: '#000000',
-    background: '#ffffff',
-    backgroundElement: '#F0F0F3',
-    backgroundSelected: '#E0E1E6',
-    textSecondary: '#60646C',
+    text: '#18181B',
+    background: '#FAFAFA',
+    backgroundElement: '#FFFFFF',
+    backgroundSelected: '#E4E4E7',
+    textSecondary: '#71717A',
+
+    accent: '#315BFF',
+    accentPressed: '#2547D8',
+    border: '#E4E4E7',
+
+    income: '#16A34A',
+    incomeBackground: '#DCFCE7',
+    expense: '#DC2626',
+    expenseBackground: '#FEE2E2',
+
+    warning: '#D97706',
+    warningBackground: '#FEF3C7',
   },
+
   dark: {
-    text: '#ffffff',
-    background: '#000000',
-    backgroundElement: '#212225',
-    backgroundSelected: '#2E3135',
-    textSecondary: '#B0B4BA',
+    text: '#FAFAFA',
+    background: '#09090B',
+    backgroundElement: '#18181B',
+    backgroundSelected: '#27272A',
+    textSecondary: '#A1A1AA',
+
+    accent: '#315BFF',
+    accentPressed: '#2547D8',
+    border: '#3F3F46',
+
+    income: '#4ADE80',
+    incomeBackground: '#052E16',
+    expense: '#F87171',
+    expenseBackground: '#450A0A',
+
+    warning: '#FBBF24',
+    warningBackground: '#422006',
   },
 } as const;
+
 
 export type ThemeColor = keyof typeof Colors.light & keyof typeof Colors.dark;
 

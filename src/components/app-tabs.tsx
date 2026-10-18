@@ -4,13 +4,19 @@ import { useState } from 'react';
 import {
   Pressable,
   StyleSheet,
-  View
+  View,
+  useColorScheme
 } from 'react-native';
-import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { Colors } from '@/constants/theme';
+import Svg, { Path } from 'react-native-svg';
 
 const colors = Colors.dark;
+
+const BAR_HEIGHT = 102;
+const BUTTON_SIZE = 75;
+const CURVE_WIDTH = 86;
+const CURVE_HEIGHT = 23;
 
 /**
  * Defines the configuration required to render a tab item
@@ -93,9 +99,39 @@ function FloatingTabBar({
   state,
   navigation,
 } : FloatingTabBarProps) {
-  const insets = useSafeAreaInsets();
+  const colorScheme = useColorScheme();
+  const colors = Colors[colorScheme === 'light' ? 'light' : 'dark'];
+
   const router = useRouter();
   const [pressed, setPressed] = useState(false);
+  const [barWidth, setBarWidth] = useState(0);
+
+  const center = barWidth / 2;
+  const curveStart = center - CURVE_WIDTH;
+  const curveEnd = center + CURVE_WIDTH;
+  const sidePadding = 24;
+
+  const barPath = barWidth
+    ? [
+        `M ${sidePadding} ${CURVE_HEIGHT}`,
+        `L ${curveStart} ${CURVE_HEIGHT}`,
+        `C ${center - 43} ${CURVE_HEIGHT}`,
+        `${center - 43} 0`,
+        `${center} 0`,
+        `C ${center + 43} 0`,
+        `${center + 43} ${CURVE_HEIGHT}`,
+        `${curveEnd} ${CURVE_HEIGHT}`,
+        `L ${barWidth - sidePadding} ${CURVE_HEIGHT}`,
+        `Q ${barWidth} ${CURVE_HEIGHT} ${barWidth} ${CURVE_HEIGHT + 24}`,
+        `L ${barWidth} ${BAR_HEIGHT - 24}`,
+        `Q ${barWidth} ${BAR_HEIGHT} ${barWidth - 24} ${BAR_HEIGHT}`,
+        `L 24 ${BAR_HEIGHT}`,
+        `Q 0 ${BAR_HEIGHT} 0 ${BAR_HEIGHT - 24}`,
+        `L 0 ${CURVE_HEIGHT + 24}`,
+        `Q 0 ${CURVE_HEIGHT} ${sidePadding} ${CURVE_HEIGHT}`,
+        'Z',
+      ].join(' ')
+    : '';
 
   /** Renders an individual tab based on its configuration and current
    * navigation state.
@@ -133,18 +169,11 @@ function FloatingTabBar({
         onPress={onPress}
         style={styles.tabButton}
       >
-        <View 
-          style={[
-            styles.iconCircle,
-            focused && styles.activeIconCircle,
-          ]}
-        >
-          <Ionicons
-            name={focused ? item.activeIcon : item.icon}
-            size={21}
-            color={focused ? colors.accent : colors.textSecondary}
-          />
-        </View>
+        <Ionicons
+          name={focused ? item.activeIcon : item.icon}
+          size={27}
+          color={focused ? colors.accent : colors.textSecondary}
+        />
       </Pressable>
     );
   };
@@ -156,9 +185,39 @@ function FloatingTabBar({
         styles.container,
       ]}
     >
-      <View style={styles.bar}>
-        {/* Render the tabs positioned before the central action button. */}
-        {LEFT_TABS.map(renderTab)}
+      <View 
+        style={styles.barWrapper}
+        onLayout={(event) => {
+          setBarWidth(event.nativeEvent.layout.width);
+        }}
+      >
+        {barWidth > 0 && (
+          <Svg
+            pointerEvents="none"
+            width={barWidth}
+            height={BAR_HEIGHT}
+            viewBox={`0 0 ${barWidth} ${BAR_HEIGHT}`}
+            style={StyleSheet.absoluteFill}
+          >
+            <Path
+              d={barPath}
+              fill={colors.backgroundElement}
+              stroke={colors.border}
+              strokeWidth={1}
+            />
+          </Svg>
+        )}
+
+        <View style={styles.tabsRow}>
+          {/* Render the tabs positioned before the central action button. */}
+          {LEFT_TABS.map(renderTab)}
+
+          <View style={styles.centerSlot}/>
+
+          {/* Render the tabs positioned after the central action button. */}
+          {RIGHT_TABS.map(renderTab)}
+        </View>
+        
 
         {/* Provide direct access to the transaction creation screen. */}
         <Pressable
@@ -174,13 +233,11 @@ function FloatingTabBar({
         >
           <Ionicons
             name="add"
-            size={24}
+            size={38}
             color={colors.text}
           />
         </Pressable>
-
-        {/* Render the tabs positioned after the central action button. */}
-        {RIGHT_TABS.map(renderTab)}
+      
       </View>
     </View>
   );
@@ -188,6 +245,9 @@ function FloatingTabBar({
 
 
 export default function AppTabs() {
+  const colorScheme = useColorScheme();
+  const colors = Colors[colorScheme === 'light' ? 'light' : 'dark'];
+
   return (
     <Tabs
       tabBar = {(props) => (
@@ -214,56 +274,90 @@ export default function AppTabs() {
 const styles = StyleSheet.create({
   container: {
     position: 'absolute',
-    bottom: 12,
+    bottom: 0,
     left: 0,
     right: 0,
     alignItems: 'center',
-    paddingHorizontal: 24,
+    paddingHorizontal: 16,
+    overflow: 'visible',
   },
-  bar: {
+  barWrapper: {
     width: '100%',
-    maxWidth: 390,
-    minHeight: 70,
-    borderRadius: 38,
-    backgroundColor: colors.backgroundElement,
+    maxWidth: 440,
+    height: BAR_HEIGHT,
+    position: 'relative',
+    overflow: 'visible',
+    bottom:8,
+
+    // Shadow for iOS
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 6 },
+    shadowOpacity: 0.16,
+    shadowRadius: 12,
+
+    // Shadow for Android
+    elevation: 10,
+  },
+  tabsRow: {
+    position: 'absolute',
+    left: 0,
+    right: 0,
+    bottom: 0,
+    height: 88,
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-around',
     paddingHorizontal: 8,
-    paddingVertical: 8,
-    elevation: 12,
-    shadowColor: '#000000',
-    shadowOffset: { width: 0, height: 5 },
-    shadowOpacity: 0.25,
-    shadowRadius: 12,
   },
   tabButton: {
     flex: 1,
+    height: 76,
     alignItems: 'center',
     justifyContent: 'center',
+    gap: 8,
   },
-  iconCircle: {
-    width: 42,
-    height: 42,
-    borderRadius: 21,
-    alignItems: 'center',
+  labelContainer: {
+    height: 4,
     justifyContent: 'center',
+    alignItems: 'center',
+  },
+  labelPill: {
+    width: 22,
+    height: 3,
+    borderRadius: 2,
     backgroundColor: 'transparent',
   },
-  activeIconCircle: {
-    backgroundColor: colors.text,
+  activeLabelPill: {
+    backgroundColor: colors.accent,
+    width: 26,
+    height: 4,
+  },
+  labelDot: {
+    display: 'none',
+  },
+  activeLabelDot: {
+    display: 'none',
+  },
+  centerSlot: {
+    flex: 1,
   },
   addButton: {
-    width: 54,
-    height: 54,
-    borderRadius: 27,
+    position: 'absolute',
+    top: 5,
+    alignSelf: 'center',
+    left: '50%',
+    marginLeft: -BUTTON_SIZE / 2,
+    width: BUTTON_SIZE,
+    height: BUTTON_SIZE,
+    borderRadius: BUTTON_SIZE / 2,
+    backgroundColor: colors.accent,
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: colors.accent,
-    marginHorizontal: 3,
+    elevation: 24,
+    zIndex: 10,
   },
   addButtonPressed: {
-    opacity: 0.8,
+    opacity: 0.88,
     transform: [{ scale: 0.94 }],
   },
 });

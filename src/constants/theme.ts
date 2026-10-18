@@ -10,46 +10,45 @@ import { Platform } from 'react-native';
 
 export const Colors = {
   light: {
-    text: '#18181B',
-    background: '#FAFAFA',
+    text: '#202522',
+    background: '#F3F3EF',
     backgroundElement: '#FFFFFF',
-    backgroundSelected: '#E4E4E7',
-    textSecondary: '#71717A',
+    backgroundSelected: '#E1E5DF',
+    textSecondary: '#707871',
 
-    accent: '#315BFF',
-    accentPressed: '#2547D8',
-    border: '#E4E4E7',
+    accent: '#1B6A50',
+    accentPressed: '#124A39',
+    border: '#D9DED8',
 
-    income: '#16A34A',
-    incomeBackground: '#DCFCE7',
-    expense: '#DC2626',
-    expenseBackground: '#FEE2E2',
+    income: '#18794E',
+    incomeBackground: '#DCEFE3',
+    expense: '#C44747',
+    expenseBackground: '#F8E3E1',
 
-    warning: '#D97706',
-    warningBackground: '#FEF3C7',
+    warning: '#996016',
+    warningBackground: '#F5E9CF',
   },
 
   dark: {
-    text: '#FAFAFA',
-    background: '#09090B',
-    backgroundElement: '#18181B',
-    backgroundSelected: '#27272A',
-    textSecondary: '#A1A1AA',
+    text: '#F0F2EF',
+    background: '#0D100F',
+    backgroundElement: '#191E1B',
+    backgroundSelected: '#29322C',
+    textSecondary: '#A1AAA3',
 
-    accent: '#315BFF',
-    accentPressed: '#2547D8',
-    border: '#3F3F46',
+    accent: '#72B59A',
+    accentPressed: '#91CDB3',
+    border: '#303832',
 
-    income: '#4ADE80',
-    incomeBackground: '#052E16',
-    expense: '#F87171',
-    expenseBackground: '#450A0A',
+    income: '#72B59A',
+    incomeBackground: '#19372B',
+    expense: '#F08078',
+    expenseBackground: '#402321',
 
-    warning: '#FBBF24',
-    warningBackground: '#422006',
+    warning: '#E8BC69',
+    warningBackground: '#3B301C',
   },
 } as const;
-
 
 export type ThemeColor = keyof typeof Colors.light & keyof typeof Colors.dark;
 

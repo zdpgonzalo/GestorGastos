@@ -339,7 +339,7 @@ const styles = StyleSheet.create({
     display: 'none',
   },
   centerSlot: {
-    flex: 1,
+    flex: 1.5,
   },
   addButton: {
     position: 'absolute',

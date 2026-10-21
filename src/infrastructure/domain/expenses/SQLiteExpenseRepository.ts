@@ -55,4 +55,27 @@ export class SQLiteExpenseRepository implements IExpenseRepository{
             expense.id
         );
     }
+
+    /**
+     * @inheritdoc
+     */
+    public async findAll(search?: string): Promise<Expense[]> {
+        const query = search?.trim();
+
+        const rows = query
+            ? await this.db.getAllAsync<ExpenseRow>(
+                `SELECT id, description, amount, category, date, created_at
+                FROM expenses
+                WHERE description LIKE ?
+                ORDER BY date DESC, created_at DESC`,
+                `%${query}%`
+            )
+            : await this.db.getAllAsync<ExpenseRow>(
+                `SELECT id, description, amount, category, date, created_at
+                FROM expenses
+                ORDER BY date DESC, created_at DESC`
+            );
+            
+        return rows.map((row) => ExpenseMapper.toDomain(row)); 
+    }
 }

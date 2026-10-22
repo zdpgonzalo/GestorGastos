@@ -4,10 +4,10 @@ import {
     StyleSheet,
     TextInput,
     View,
-    useColorScheme,
 } from "react-native";
 
-import { Colors, type ThemeColors } from "@/constants/theme";
+import { type ThemeColors } from "@/constants/theme";
+import { useTheme } from "@/shared/theme/ThemeProvider";
 
 interface Props{
     value: string;
@@ -25,8 +25,7 @@ export function TransactionSearchBar({
     value,
     onChangeText,
 }: Props) {
-    const colorScheme = useColorScheme();
-    const colors = Colors[colorScheme === "dark" ? "dark" : "light"];
+    const { colors } = useTheme();
 
     const styles = createStyles(colors);
 
@@ -80,7 +79,7 @@ export function TransactionSearchBar({
 function createStyles(colors: ThemeColors) {
   return StyleSheet.create({
     container: {
-      minHeight: 48,
+      minHeight: 40,
       flexDirection: 'row',
       alignItems: 'center',
       gap: 10,

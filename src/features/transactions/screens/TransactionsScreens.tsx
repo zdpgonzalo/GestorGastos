@@ -1,13 +1,12 @@
+import { type ThemeColors } from '@/constants/theme';
+import { Expense } from '@/domain/expenses/Expense';
+import { useTheme } from '@/shared/theme/ThemeProvider';
 import { useMemo, useState } from 'react';
 import {
     StyleSheet,
     Text,
-    View,
-    useColorScheme,
+    View
 } from 'react-native';
-
-import { Colors, type ThemeColors } from '@/constants/theme';
-import { Expense } from '@/domain/expenses/Expense';
 
 import { ExpenseCategory } from '@/domain/expenses/ExpenseCategory';
 import { TransactionList } from '@/features/transactions/components/TransactionList';
@@ -84,9 +83,7 @@ interface Props {
 export function TransactionsScreen({
   onExpensePress,
 }: Props) {
-  const scheme = useColorScheme();
-  const colorScheme = scheme === 'dark' ? 'dark' : 'light';
-  const colors = Colors[colorScheme];
+  const { colors } = useTheme();
 
   const styles = useMemo(
     () => createStyles(colors),
@@ -124,10 +121,6 @@ export function TransactionsScreen({
       <View style={styles.header}>
         <Text style={styles.title}>
           Transacciones
-        </Text>
-
-        <Text style={styles.subtitle}>
-          Consulta y busca tus movimientos
         </Text>
       </View>
 
@@ -184,9 +177,8 @@ function createStyles(colors: ThemeColors) {
       gap: 6,
     },
     title: {
-      fontSize: 28,
+      fontSize: 25,
       fontWeight: '700',
-      letterSpacing: -0.7,
       color: colors.text,
     },
     subtitle: {

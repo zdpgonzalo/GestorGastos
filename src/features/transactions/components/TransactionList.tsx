@@ -2,13 +2,13 @@ import {
     SectionList,
     StyleSheet,
     Text,
-    useColorScheme,
     View,
 } from 'react-native';
 
-import { Colors, type ThemeColors } from '@/constants/theme';
+import { type ThemeColors } from '@/constants/theme';
 import { type Expense } from '@/domain/expenses/Expense';
 import { formatTransactionDay } from '@/shared/formatting/formatTransactionDate';
+import { useTheme } from '@/shared/theme/ThemeProvider';
 import { groupExpensesByDay } from '../utils/groupExpensesByDay';
 import { TransactionRow } from './TransactionRow';
 
@@ -25,44 +25,42 @@ export function TransactionList({
   expenses,
   onExpensePress,
 }: Props) {
-  const colorScheme = useColorScheme();
-  const colors = Colors[colorScheme === 'dark' ? 'dark' : 'light'];
+    const { colors } = useTheme();
+    const styles = createStyles(colors);
 
-  const styles = createStyles(colors);
+    const sections = groupExpensesByDay(expenses).map((group) => ({
+        key: group.key,
+        title: formatTransactionDay(group.date),
+        data: group.expenses,
+    }));
 
-  const sections = groupExpensesByDay(expenses).map((group) => ({
-    key: group.key,
-    title: formatTransactionDay(group.date),
-    data: group.expenses,
-  }));
+    return (
+        <SectionList
+        sections={sections}
+        keyExtractor={(item) => item.id}
+        stickySectionHeadersEnabled={false}
+        showsVerticalScrollIndicator={false}
+        contentContainerStyle={styles.content}
+        renderSectionHeader={({ section }) => (
+            <Text style={styles.header}>
+            {section.title}
+            </Text>
+        )}
+        renderItem={({ item, index, section }) => (
+            <View>
+            <TransactionRow
+                expense={item}
+                onPress={onExpensePress}
+            />
 
-  return (
-    <SectionList
-      sections={sections}
-      keyExtractor={(item) => item.id}
-      stickySectionHeadersEnabled={false}
-      showsVerticalScrollIndicator={false}
-      contentContainerStyle={styles.content}
-      renderSectionHeader={({ section }) => (
-        <Text style={styles.header}>
-          {section.title}
-        </Text>
-      )}
-      renderItem={({ item, index, section }) => (
-        <View>
-          <TransactionRow
-            expense={item}
-            onPress={onExpensePress}
-          />
-
-          {index < section.data.length - 1 && (
-            <View style={styles.separator} />
-          )}
-        </View>
-      )}
-      renderSectionFooter={() => (
-        <View style={styles.footer} />
-      )}
+            {index < section.data.length - 1 && (
+                <View style={styles.separator} />
+            )}
+            </View>
+        )}
+        renderSectionFooter={() => (
+            <View style={styles.footer} />
+        )}
     />
   );
 }

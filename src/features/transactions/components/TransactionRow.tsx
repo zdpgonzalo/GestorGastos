@@ -3,13 +3,13 @@ import {
     Pressable,
     StyleSheet,
     Text,
-    useColorScheme,
     View,
 } from 'react-native';
 
-import { Colors, ThemeColors } from '@/constants/theme';
+import { type ThemeColors } from '@/constants/theme';
 import { Expense } from '@/domain/expenses/Expense';
 import { formatCurrency } from '@/shared/formatting/formatCurrency';
+import { useTheme } from '@/shared/theme/ThemeProvider';
 import { EXPENSE_PRESENTATION } from '../utils/expensePresentation';
 
 interface Props{
@@ -28,8 +28,7 @@ export function TransactionRow({
     expense,
     onPress,
 }: Props) {
-    const colorScheme = useColorScheme();
-    const colors = Colors[colorScheme === 'dark' ? 'dark' : 'light'];
+    const { colors } = useTheme();
 
     const styles = createStyles(colors);
     const presentation = EXPENSE_PRESENTATION[expense.category];
@@ -50,7 +49,7 @@ export function TransactionRow({
         >
             <Ionicons
                 name={presentation.icon}
-                size={22}
+                size={24}
                 color={colors.textSecondary}
             />
 
@@ -59,7 +58,7 @@ export function TransactionRow({
                     numberOfLines={1}
                     style={styles.title}
                 >
-                    {presentation.label}
+                    {expense.description}
                 </Text>
 
                 <Text
@@ -103,11 +102,11 @@ function createStyles(theme: ThemeColors) {
     details: {
       flex: 1,
       minWidth: 0,
-      gap: 4,
+      gap: 2,
     },
     title: {
       fontSize: 15,
-      fontWeight: '600',
+      fontWeight: '700',
       color: theme.text,
     },
     subtitle: {

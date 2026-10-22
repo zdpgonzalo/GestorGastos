@@ -1,12 +1,12 @@
 import {
     StyleSheet,
     Text,
-    View,
-    useColorScheme
+    View
 } from 'react-native';
 
-import { Colors, type ThemeColors } from '@/constants/theme';
+import { type ThemeColors } from '@/constants/theme';
 import { formatCurrency } from '@/shared/formatting/formatCurrency';
+import { useTheme } from '@/shared/theme/ThemeProvider';
 
 type BalanceCardProps = {
   balance: number;
@@ -25,9 +25,8 @@ export function BalanceCard({
   income,
   expenses,
 }: BalanceCardProps) {
-    const colorScheme = useColorScheme();
-    const colors = Colors[colorScheme === 'dark' ? 'dark' : 'light'];
-
+    const { colors } = useTheme();
+    
     const styles = createSytles(colors);
 
     return (

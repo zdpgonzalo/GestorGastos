@@ -2,11 +2,11 @@ import {
     Pressable,
     StyleSheet,
     Text,
-    View,
-    useColorScheme
+    View
 } from 'react-native';
 
-import { Colors, ThemeColors } from '@/constants/theme';
+import { type ThemeColors } from '@/constants/theme';
+import { useTheme } from '@/shared/theme/ThemeProvider';
 
 export type TransactionFilter = 'all' | 'expenses' | 'income';
 
@@ -30,8 +30,7 @@ export function TransactionTypeTabs({
     value,
     onChange,
 }: Props) {
-    const colorScheme = useColorScheme();
-    const colors = Colors[colorScheme === 'dark' ? 'dark' : 'light'];
+    const { colors } = useTheme();
 
     const styles = createStyles(colors);
 
@@ -82,19 +81,16 @@ function createStyles(colors: ThemeColors) {
   return StyleSheet.create({
     container: {
       flexDirection: 'row',
-      padding: 4,
-      gap: 4,
-      borderRadius: 14,
-      backgroundColor: colors.backgroundElement,
-      borderWidth: 1,
-      borderColor: colors.border,
+      gap: 10,
     },
     tab: {
       flex: 1,
-      minHeight: 38,
-      borderRadius: 10,
+      minHeight: 32,
+      borderRadius: 999,
       justifyContent: 'center',
       alignItems: 'center',
+      borderWidth: 1,
+      borderColor: colors.border,
     },
     selectedTab: {
       backgroundColor: colors.backgroundSelected,

@@ -1,10 +1,10 @@
-import { Colors, type ThemeColors } from '@/constants/theme';
+import { type ThemeColors } from '@/constants/theme';
 import { formatCurrency } from '@/shared/formatting/formatCurrency';
+import { useTheme } from '@/shared/theme/ThemeProvider';
 import {
   StyleSheet,
   Text,
-  View,
-  useColorScheme
+  View
 } from 'react-native';
 
 type Transaction = {
@@ -40,8 +40,8 @@ const transactions: Transaction[] = [
 ];
 
 export function RecentTransactions() {
-  const colorScheme = useColorScheme() ?? 'light';
-  const colors = Colors[colorScheme === 'dark' ? 'dark' : 'light'];
+  const { colors } = useTheme();
+  
   const styles = createStyles(colors);
 
   return (

@@ -6,18 +6,13 @@ import {
 } from 'react-native';
 
 import { Colors, type ThemeColors } from '@/constants/theme';
+import { formatCurrency } from '@/shared/formatting/formatCurrency';
 
 type BalanceCardProps = {
   balance: number;
   income: number;
   expenses: number;
 };
-
-const formatCurrency = (amount: number): string =>
-  new Intl.NumberFormat('es-ES', {
-    style: 'currency',
-    currency: 'EUR',
-}).format(amount);
 
 /** A card component that displays the user's balance, income, and expenses 
  * for the current month.

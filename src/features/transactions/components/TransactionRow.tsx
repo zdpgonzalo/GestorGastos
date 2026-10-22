@@ -51,7 +51,7 @@ export function TransactionRow({
             <Ionicons
                 name={presentation.icon}
                 size={22}
-                color={colors.accent}
+                color={colors.textSecondary}
             />
 
             <View style={styles.details}>

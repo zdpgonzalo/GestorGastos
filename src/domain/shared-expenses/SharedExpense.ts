@@ -1,5 +1,6 @@
 import { Result } from "@/shared/common/Result";
 import { Entity } from "@/shared/domain/Entity";
+import * as Crypto from 'expo-crypto';
 import { ExpenseCategory } from "../expenses/ExpenseCategory";
 
 export class SharedExpense implements Entity{
@@ -67,7 +68,7 @@ export class SharedExpense implements Entity{
         }
 
         return Result.success(new SharedExpense(
-            crypto.randomUUID(),
+            Crypto.randomUUID(),
             payerValidationResult.value,
             normalizedParticipantIdsResult.value,
             validatedDescription.value,

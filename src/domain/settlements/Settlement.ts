@@ -1,5 +1,6 @@
 import { Result } from "@/shared/common/Result";
 import { Entity } from "@/shared/domain/Entity";
+import * as Crypto from 'expo-crypto';
 import { SettlementMethod } from "./SettlementMethod";
 
 /** Represents a settlement in the system. */
@@ -65,7 +66,7 @@ export class Settlement implements Entity{
         }
 
         const newSettlement = new Settlement(
-            crypto.randomUUID(),
+            Crypto.randomUUID(),
             fromResult.value,
             toResult.value,
             amountResult.value,

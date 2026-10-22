@@ -1,5 +1,6 @@
 import { Result } from "@/shared/common/Result";
 import { Entity } from "@/shared/domain/Entity";
+import * as Crypto from 'expo-crypto';
 import { ExpenseCategory } from "./ExpenseCategory";
 
 /** Represents an expense in the shared expenses system. */
@@ -45,16 +46,10 @@ export class Expense implements Entity{
             return descriptionResult;
         }
 
-        const amountResult = this.validateAmount(amount);
-
-        if(!amountResult.isSuccess){
-            return amountResult;
-        }
-
         const newExpense = new Expense(
-            crypto.randomUUID(),
+            Crypto.randomUUID(),
             descriptionResult.value,
-            amountResult.value,
+            amount,
             category,
             date,
             new Date()
@@ -135,13 +130,9 @@ export class Expense implements Entity{
      * @returns A Result object indicating success or failure.
      */
     public updateAmount(newAmount: number): Result<number>{
-        const amountResult = Expense.validateAmount(newAmount);
+        this._amount = newAmount;
 
-        if(amountResult.isSuccess){
-            this._amount = amountResult.value;
-        }
-
-        return amountResult;
+        return Result.success(newAmount);
     }
 
     /** Updates the category of the expense.
@@ -178,18 +169,6 @@ export class Expense implements Entity{
         }
 
         return Result.success(normalizedDescription);
-    }
-
-    /** Checks if the provided amount is valid (greater than zero).
-     * @param amount Amount to be validated.
-     * @returns A Result object indicating success with the validated amount or failure with an error message.
-     */
-    private static validateAmount(amount: number): Result<number> {
-        if(amount <= 0){
-            return Result.failure("Amount must be greater than zero.");
-        }
-
-        return Result.success(amount);
     }
 
     //#endregion

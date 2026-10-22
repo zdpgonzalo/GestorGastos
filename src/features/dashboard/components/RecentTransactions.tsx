@@ -1,4 +1,5 @@
 import { Colors, type ThemeColors } from '@/constants/theme';
+import { formatCurrency } from '@/shared/formatting/formatCurrency';
 import {
   StyleSheet,
   Text,
@@ -37,12 +38,6 @@ const transactions: Transaction[] = [
     amount: 3200,
   },
 ];
-
-const formatCurrency = (amount: number): string =>
-  new Intl.NumberFormat('es-ES', {
-    style: 'currency',
-    currency: 'EUR',
-  }).format(Math.abs(amount));
 
 export function RecentTransactions() {
   const colorScheme = useColorScheme() ?? 'light';

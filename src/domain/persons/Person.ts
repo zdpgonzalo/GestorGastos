@@ -1,5 +1,6 @@
 import { Result } from "@/shared/common/Result";
 import { Entity } from "@/shared/domain/Entity";
+import * as Crypto from 'expo-crypto';
 
 /** Represents a person who participates in the shared expenses. */
 export class Person implements Entity {
@@ -27,7 +28,7 @@ export class Person implements Entity {
         }
 
         const newPerson = new Person(
-            crypto.randomUUID(),
+            Crypto.randomUUID(),
             nameResult.value,
             new Date()
         );

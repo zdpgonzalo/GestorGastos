@@ -1,8 +1,8 @@
 import {
-    SectionList,
-    StyleSheet,
-    Text,
-    View,
+  SectionList,
+  StyleSheet,
+  Text,
+  View,
 } from 'react-native';
 
 import { type ThemeColors } from '@/constants/theme';

@@ -20,8 +20,6 @@ const CURVE_HEIGHT = 18;
 
 const CUTOUT_GAP = 7;
 const CUTOUT_RADIUS = BUTTON_SIZE / 2 + CUTOUT_GAP;
-const CUTOUT_CONTROL = 0.55228475;
-
 
 /**
  * Defines the configuration required to render a tab item
@@ -286,6 +284,7 @@ export default function AppTabs() {
         headerShown: false,
         sceneStyle: {
           backgroundColor: colors.background,
+          paddingBottom: BAR_HEIGHT + 12,
         },
       }}
     >

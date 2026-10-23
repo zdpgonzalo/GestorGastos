@@ -58,7 +58,7 @@ export function TransactionTypeTabs({
                             styles.label,
                             {
                                 color: selected 
-                                    ? colors.text 
+                                    ? colors.accent 
                                     : colors.textSecondary,
                             },
                             selected && styles.selectedLabel,
@@ -93,7 +93,8 @@ function createStyles(colors: ThemeColors) {
       borderColor: colors.border,
     },
     selectedTab: {
-      backgroundColor: colors.backgroundSelected,
+      backgroundColor: colors.incomeBackground,
+      borderColor: colors.income,
     },
     label: {
       fontSize: 14,

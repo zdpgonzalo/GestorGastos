@@ -13,10 +13,15 @@ import Svg, { Path } from 'react-native-svg';
 
 const colors = Colors.dark;
 
-const BAR_HEIGHT = 102;
-const BUTTON_SIZE = 75;
-const CURVE_WIDTH = 86;
-const CURVE_HEIGHT = 23;
+
+const BAR_HEIGHT = 78;
+const BUTTON_SIZE = 65;
+const CURVE_HEIGHT = 18;
+
+const CUTOUT_GAP = 7;
+const CUTOUT_RADIUS = BUTTON_SIZE / 2 + CUTOUT_GAP;
+const CUTOUT_CONTROL = 0.55228475;
+
 
 /**
  * Defines the configuration required to render a tab item
@@ -121,20 +126,30 @@ function FloatingTabBar({
   const [barWidth, setBarWidth] = useState(0);
 
   const center = barWidth / 2;
-  const curveStart = center - CURVE_WIDTH;
-  const curveEnd = center + CURVE_WIDTH;
   const sidePadding = 24;
+
+  const buttonCenterY = -2 + BUTTON_SIZE / 2;
+
+  const cutoutRadius = CUTOUT_RADIUS;
+
+  const verticalDistance = buttonCenterY - CURVE_HEIGHT;
+
+  const halfCutoutWidth = Math.sqrt(
+    Math.max(
+      0,
+      cutoutRadius * cutoutRadius -
+        verticalDistance * verticalDistance
+    )
+  );
+
+  const curveStart = center - halfCutoutWidth;
+  const curveEnd = center + halfCutoutWidth;
 
   const barPath = barWidth
     ? [
         `M ${sidePadding} ${CURVE_HEIGHT}`,
         `L ${curveStart} ${CURVE_HEIGHT}`,
-        `C ${center - 43} ${CURVE_HEIGHT}`,
-        `${center - 43} 0`,
-        `${center} 0`,
-        `C ${center + 43} 0`,
-        `${center + 43} ${CURVE_HEIGHT}`,
-        `${curveEnd} ${CURVE_HEIGHT}`,
+        `A ${cutoutRadius} ${cutoutRadius} 0 1 0 ${curveEnd} ${CURVE_HEIGHT}`,
         `L ${barWidth - sidePadding} ${CURVE_HEIGHT}`,
         `Q ${barWidth} ${CURVE_HEIGHT} ${barWidth} ${CURVE_HEIGHT + 24}`,
         `L ${barWidth} ${BAR_HEIGHT - 24}`,
@@ -298,7 +313,7 @@ const styles = StyleSheet.create({
     height: BAR_HEIGHT,
     position: 'relative',
     overflow: 'visible',
-    bottom:8,
+    bottom:12,
 
     // Shadow for iOS
     shadowColor: '#000',
@@ -311,10 +326,10 @@ const styles = StyleSheet.create({
   },
   tabsRow: {
     position: 'absolute',
+    top: 0,
     left: 0,
     right: 0,
-    bottom: 0,
-    height: 88,
+    height: BAR_HEIGHT,
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-around',
@@ -322,10 +337,10 @@ const styles = StyleSheet.create({
   },
   tabButton: {
     flex: 1,
-    height: 76,
+    height: '100%',
     alignItems: 'center',
     justifyContent: 'center',
-    gap: 8,
+    paddingTop: 12,
   },
   labelContainer: {
     height: 4,
@@ -354,7 +369,7 @@ const styles = StyleSheet.create({
   },
   addButton: {
     position: 'absolute',
-    top: 5,
+    top: -2,
     alignSelf: 'center',
     left: '50%',
     marginLeft: -BUTTON_SIZE / 2,
@@ -364,7 +379,7 @@ const styles = StyleSheet.create({
     backgroundColor: colors.accent,
     alignItems: 'center',
     justifyContent: 'center',
-    elevation: 24,
+    elevation: 12,
     zIndex: 10,
   },
   addButtonPressed: {

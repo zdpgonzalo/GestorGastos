@@ -97,8 +97,22 @@ type FloatingTabBarProps = {
  */
 function FloatingTabBar({
   state,
-  navigation,
-} : FloatingTabBarProps) {
+  emitter,
+  navigateToTab,
+} : {
+  state: {
+    index: number;
+    routes: { key: string; name: string }[];
+  };
+  emitter: {
+    emit: (event: {
+      type: 'tabPress';
+      target: string;
+      canPreventDefault: true;
+    }) => { defaultPrevented: boolean };
+  };
+  navigateToTab: (routeKey: string) => void;
+}) {
   const colorScheme = useColorScheme();
   const colors = Colors[colorScheme === 'light' ? 'light' : 'dark'];
 
@@ -149,14 +163,14 @@ function FloatingTabBar({
     const focused = state.index === routeIndex;
 
     const onPress = () => {
-      const event = navigation.emit({
+      const event = emitter.emit({
         type: 'tabPress',
         target: route.key,
         canPreventDefault: true,
       });
 
       if(!focused && !event?.defaultPrevented){
-        navigation.navigate(route.name);
+        navigateToTab(route.key);
       }
     };
 
@@ -250,12 +264,9 @@ export default function AppTabs() {
 
   return (
     <Tabs
-      tabBar = {(props) => (
-        <FloatingTabBar
-          state={props.state}
-          navigation={props.navigation}
-        />
-      )}
+      tabBar={(props) => 
+        <FloatingTabBar {...props} />
+    }
       screenOptions={{
         headerShown: false,
         sceneStyle: {

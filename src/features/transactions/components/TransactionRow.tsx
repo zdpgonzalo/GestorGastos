@@ -6,7 +6,7 @@ import {
     View,
 } from 'react-native';
 
-import { type ThemeColors } from '@/constants/theme';
+import { Fonts, type ThemeColors } from '@/constants/theme';
 import { Expense } from '@/domain/expenses/Expense';
 import { formatCurrency } from '@/shared/formatting/formatCurrency';
 import { useTheme } from '@/shared/theme/ThemeProvider';
@@ -90,33 +90,35 @@ export function TransactionRow({
 function createStyles(theme: ThemeColors) {
   return StyleSheet.create({
     row: {
-      minHeight: 68,
-      flexDirection: 'row',
-      alignItems: 'center',
-      gap: 14,
-      paddingVertical: 10,
+        minHeight: 68,
+        flexDirection: 'row',
+        alignItems: 'center',
+        gap: 14,
+        paddingVertical: 10,
     },
     pressed: {
-      opacity: 0.7,
+        opacity: 0.7,
     },
     details: {
-      flex: 1,
-      minWidth: 0,
-      gap: 2,
+        flex: 1,
+        minWidth: 0,
+        gap: 2,
     },
     title: {
-      fontSize: 15,
-      fontWeight: '700',
-      color: theme.text,
+        fontFamily: Fonts.semiBold,
+        fontSize: 15,
+        color: theme.text,
     },
     subtitle: {
-      fontSize: 13,
-      color: theme.textSecondary,
+        fontFamily: Fonts.medium,
+        fontSize: 13,
+        color: theme.textSecondary,
     },
     amount: {
-      fontSize: 14,
-      fontWeight: '600',
-      fontVariant: ['tabular-nums'],
+        fontFamily: Fonts.semiBold,
+        fontSize: 14,
+        fontWeight: '600',
+        fontVariant: ['tabular-nums'],
     },
   });
 }

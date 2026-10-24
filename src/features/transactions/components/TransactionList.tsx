@@ -5,7 +5,7 @@ import {
   View,
 } from 'react-native';
 
-import { type ThemeColors } from '@/constants/theme';
+import { Fonts, type ThemeColors } from '@/constants/theme';
 import { type Expense } from '@/domain/expenses/Expense';
 import { formatTransactionDay } from '@/shared/formatting/formatTransactionDate';
 import { useTheme } from '@/shared/theme/ThemeProvider';
@@ -76,8 +76,8 @@ function createStyles(colors: ThemeColors) {
       paddingBottom: 24,
     },
     header: {
+      fontFamily: Fonts.semiBold,
       fontSize: 13,
-      fontWeight: '600',
       color: colors.textSecondary,
       marginBottom: 8,
       textTransform: 'capitalize',

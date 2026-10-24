@@ -5,7 +5,7 @@ import {
   View,
 } from 'react-native';
 
-import { type ThemeColors } from '@/constants/theme';
+import { Fonts, type ThemeColors } from '@/constants/theme';
 import { useTheme } from '@/shared/theme/ThemeProvider';
 
 import { BalanceCard } from '../components/BalanceCard';
@@ -60,22 +60,17 @@ function createStyles(colors: ThemeColors) {
     header: {
       gap: 6,
     },
-    greeting: {
-      fontSize: 15,
-      fontWeight: '500',
-      color: colors.textSecondary,
-    },
     title: {
+      fontFamily: Fonts.bold,
       fontSize: 25,
-      fontWeight: '700',
       color: colors.text,
     },
     section: {
       gap: 10,
     },
     sectionTitle: {
+      fontFamily: Fonts.semiBold,
       fontSize: 19,
-      fontWeight: '700',
       color: colors.text,
     },
   });

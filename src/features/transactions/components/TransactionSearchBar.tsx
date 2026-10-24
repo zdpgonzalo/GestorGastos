@@ -6,7 +6,7 @@ import {
     View,
 } from "react-native";
 
-import { type ThemeColors } from "@/constants/theme";
+import { Fonts, type ThemeColors } from "@/constants/theme";
 import { useTheme } from "@/shared/theme/ThemeProvider";
 
 interface Props{
@@ -79,29 +79,30 @@ export function TransactionSearchBar({
 function createStyles(colors: ThemeColors) {
   return StyleSheet.create({
     container: {
-      minHeight: 40,
-      flexDirection: 'row',
-      alignItems: 'center',
-      gap: 10,
-      paddingHorizontal: 14,
-      backgroundColor: colors.backgroundElement,
-      borderWidth: 1,
-      borderColor: colors.border,
-      borderRadius: 14,
+        minHeight: 40,
+        flexDirection: 'row',
+        alignItems: 'center',
+        gap: 10,
+        paddingHorizontal: 14,
+        backgroundColor: colors.backgroundElement,
+        borderWidth: 1,
+        borderColor: colors.border,
+        borderRadius: 14,
     },
     input: {
-      flex: 1,
-      minWidth: 0,
-      paddingVertical: 10,
-      fontSize: 15,
-      color: colors.text,
+        flex: 1,
+        minWidth: 0,
+        paddingVertical: 10,
+        fontFamily: Fonts.sans,
+        fontSize: 15,
+        color: colors.text,
     },
     clearButton: {
-      alignItems: 'center',
-      justifyContent: 'center',
+        alignItems: 'center',
+        justifyContent: 'center',
     },
     pressed: {
-      opacity: 0.6,
+        opacity: 0.6,
     },
   });
 }

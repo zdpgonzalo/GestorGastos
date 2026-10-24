@@ -6,6 +6,13 @@ import * as NavigationBar from 'expo-navigation-bar';
 
 import { ThemeProvider as AppThemeProvider } from '@/shared/theme/ThemeProvider';
 import {
+  SpaceGrotesk_400Regular,
+  SpaceGrotesk_500Medium,
+  SpaceGrotesk_600SemiBold,
+  SpaceGrotesk_700Bold,
+} from '@expo-google-fonts/space-grotesk';
+import { useFonts } from 'expo-font';
+import {
   DarkTheme,
   DefaultTheme,
   ThemeProvider as NavigationThemeProvider,
@@ -33,13 +40,24 @@ export default function RootLayout() {
     ? DarkTheme 
     : DefaultTheme;
 
+  const [fontsLoaded, fontError] = useFonts({
+    'SpaceGrotesk-Regular': SpaceGrotesk_400Regular,
+    'SpaceGrotesk-Medium': SpaceGrotesk_500Medium,
+    'SpaceGrotesk-SemiBold': SpaceGrotesk_600SemiBold,
+    'SpaceGrotesk-Bold': SpaceGrotesk_700Bold,
+  });
+
   useEffect(() => {
     if (Platform.OS === 'android') {
       void NavigationBar.setStyle(
         colorScheme === 'dark' ? 'light' : 'dark'
       );
     }
-  }, [colorScheme]);
+  }, [fontsLoaded, colorScheme]);
+
+  if(!fontsLoaded && !fontError) {
+    return null;
+  }
 
   return (
     <SafeAreaProvider>

@@ -5,7 +5,7 @@ import {
     View
 } from 'react-native';
 
-import { type ThemeColors } from '@/constants/theme';
+import { Fonts, type ThemeColors } from '@/constants/theme';
 import { useTheme } from '@/shared/theme/ThemeProvider';
 
 export type TransactionFilter = 'all' | 'expenses' | 'income';
@@ -80,31 +80,32 @@ export function TransactionTypeTabs({
 function createStyles(colors: ThemeColors) {
   return StyleSheet.create({
     container: {
-      flexDirection: 'row',
-      gap: 10,
+        flexDirection: 'row',
+        gap: 10,
     },
     tab: {
-      flex: 1,
-      minHeight: 32,
-      borderRadius: 999,
-      justifyContent: 'center',
-      alignItems: 'center',
-      borderWidth: 1,
-      borderColor: colors.border,
+        flex: 1,
+        minHeight: 32,
+        borderRadius: 999,
+        justifyContent: 'center',
+        alignItems: 'center',
+        borderWidth: 1,
+        borderColor: colors.border,
     },
     selectedTab: {
-      backgroundColor: colors.incomeBackground,
-      borderColor: colors.income,
+        backgroundColor: colors.incomeBackground,
+        borderColor: colors.income,
     },
     label: {
-      fontSize: 14,
-      fontWeight: '500',
+        fontFamily: Fonts.medium,
+        fontSize: 14,
     },
     selectedLabel: {
-      fontWeight: '600',
+        fontFamily: Fonts.bold,
+        fontWeight: '600',
     },
     pressed: {
-      opacity: 0.7,
+        opacity: 0.7,
     },
   });
 }

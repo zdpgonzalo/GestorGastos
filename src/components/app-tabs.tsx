@@ -66,31 +66,6 @@ const RIGHT_TABS: TabItem[] = [
   }
 ];
 
-/**
- * Defines the props required by the custom floating tab bar.
- *
- * @property state - The current navigation state, including the active
- * route index and the list of available routes.
- *
- * @property navigation - Provides the navigation methods required to
- * handle tab presses and navigate between routes.
- */
-type FloatingTabBarProps = {
-  state:{
-    index: number;
-    routes: { key: string; name: string }[];
-  };
-
-  navigation: {
-    emit: (event:{
-      type: 'tabPress';
-      target: string;
-      canPreventDefault: true;
-    }) => { defaultPrevented: boolean };
-    navigate: (name: string) => void;
-  };
-};
-
 /** Renders the custom floating tab bar and manages tab selection,
  * navigation events, safe area spacing, and the central action button.
  * @param state - Current tab navigator state, including available routes

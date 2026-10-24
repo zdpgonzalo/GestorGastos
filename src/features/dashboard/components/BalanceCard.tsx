@@ -31,27 +31,27 @@ export function BalanceCard({
 
     return (
         <View style={styles.card}>
-        <Text style={styles.label}>Balance del mes</Text>
+            <Text style={styles.label}>Balance del mes</Text>
 
-        <Text style={styles.balance}>
-            {formatCurrency(balance)}
-        </Text>
-
-        <View style={styles.summary}>
-            <View style={styles.summaryItem}>
-            <Text style={styles.summaryLabel}>Ingresos</Text>
-            <Text style={styles.income}>
-                +{formatCurrency(income)}
+            <Text style={styles.balance}>
+                {formatCurrency(balance)}
             </Text>
-            </View>
 
-            <View style={styles.summaryItem}>
-            <Text style={styles.summaryLabel}>Gastos</Text>
-            <Text style={styles.expenses}>
-                -{formatCurrency(expenses)}
-            </Text>
+            <View style={styles.summary}>
+                <View style={styles.summaryItem}>
+                    <Text style={styles.summaryLabel}>Ingresos</Text>
+                    <Text style={styles.income}>
+                        +{formatCurrency(income)}
+                    </Text>
+                </View>
+
+                <View style={styles.summaryItem}>
+                    <Text style={styles.summaryLabel}>Gastos</Text>
+                    <Text style={styles.expenses}>
+                        -{formatCurrency(expenses)}
+                    </Text>
+                </View>
             </View>
-        </View>
         </View>
     );
 }
@@ -69,7 +69,7 @@ function createSytles(
             backgroundColor: colors.backgroundElement,
             borderRadius: 20,
             padding: 22,
-            gap: 12,
+            gap: 2,
             borderWidth: 1,
             borderColor: colors.border,
         },
@@ -87,11 +87,11 @@ function createSytles(
         summary: {
             flexDirection: 'row',
             gap: 32,
-            marginTop: 12,
+            marginTop: 36,
         },
         summaryItem: {
             flex: 1,
-            gap: 6,
+            gap: 2,
         },
         summaryLabel: {
             fontSize: 13,

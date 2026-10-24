@@ -60,7 +60,7 @@ export function RecentTransactions() {
   };
 
   return (
-    <View style={styles.container}>
+    <View>
       {RECENT_TRANSACTIONS.map((transaction, index) => (
         <View key={transaction.id}>
           <TransactionRow
@@ -79,13 +79,6 @@ export function RecentTransactions() {
 
 function createStyles(colors: ThemeColors) {
   return StyleSheet.create({
-    container: {
-      backgroundColor: colors.backgroundElement,
-      borderRadius: 18,
-      paddingHorizontal: 16,
-      borderWidth: 1,
-      borderColor: colors.border,
-    },
     divider: {
       height: StyleSheet.hairlineWidth,
       backgroundColor: colors.border,

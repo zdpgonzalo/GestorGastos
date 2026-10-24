@@ -71,7 +71,7 @@ function createStyles(colors: ThemeColors) {
       color: colors.text,
     },
     section: {
-      gap: 14,
+      gap: 10,
     },
     sectionTitle: {
       fontSize: 19,

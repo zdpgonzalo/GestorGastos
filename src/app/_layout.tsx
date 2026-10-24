@@ -60,7 +60,7 @@ export default function RootLayout() {
                   flex: 1, 
                   backgroundColor: colors.background
                 }}
-                edges={['top']}
+                edges={['top', 'bottom']}
               >
                 <AnimatedSplashOverlay />
 
